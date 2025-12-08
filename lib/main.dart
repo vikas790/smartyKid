@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:smartykids/view/splash_screen/splash_screen.dart';
-import 'core/di/locator.dart';
-import 'routes/routes.dart';
+import 'package:smartykids/routing/navigation_services.dart';
+import 'package:smartykids/data/di/locator.dart';
+import 'package:smartykids/utils/custom_screen_util.dart';
+
+import 'data/storage/storage_constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   
-  setupLocator();
+  Locator.registerDi();
 
-  // --- Hive Setup --- //
+  // --- Hive Setup : START --- //
   var appDir = await getApplicationDocumentsDirectory();
-  await Hive.initFlutter(appDir.path);
-  await Hive.openBox('settings');
-  // ------------------ //
+  debugPrint('appDir: ${appDir.path}');
+  Hive.init(appDir.path);
+  await Hive.openBox(box);
+  //  --- Hive Setup : END --- //
 
   runApp(SmartyKidsApp());
 }
@@ -26,12 +29,12 @@ class SmartyKidsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,
-      title: 'SmartyKids',
-      debugShowCheckedModeBanner: true,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'ComicNeue',
-      ),
+      debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        ResponsiveSizing().init(context);
+        // phoneHasNotch = MediaQuery.of(context).padding.top > 24.0;
+        return child!;
+      },
     );
   }
 }
