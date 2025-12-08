@@ -31,7 +31,15 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Lottie.asset('assets/animations/splashscreen.json', width: 200),
+              Lottie.asset(
+                'assets/animations/splashscreen.json',
+                width: 200,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  debugPrint('Lottie Error: $error');
+                  return const Icon(Icons.error, color: Colors.red, size: 50);
+                },
+              ),
               SizedBox(height: 20),
               Text(
                 'SmartyKids',
@@ -39,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: Colors.deepPurple,
+                    color: Colors.black,
                   ),
                 ),
               ),
