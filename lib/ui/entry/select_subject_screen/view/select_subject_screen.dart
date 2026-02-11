@@ -15,72 +15,136 @@ class SelectSubjectScreen extends BaseWidget {
 class _SubjectScreenState extends State<SelectSubjectScreen> {
   final SelectSubjectCubit _subjectCubit = SelectSubjectCubit();
 
-  // 👇 Added dynamic type to support mixed values (String, Color)
   final List<Map<String, dynamic>> subjects = [
     {
       'name': 'English',
       'iconPath': 'assets/drawables/icons/english.png',
-      'color': Colors.redAccent,
+      'color': Color(0xFFFF8A65), // Coral
+      'emoji': '📚',
     },
     {
       'name': 'Math',
       'iconPath': 'assets/drawables/icons/math.png',
-      'color': Colors.green,
+      'color': Color(0xFF81C784), // Green
+      'emoji': '🔢',
     },
     {
       'name': 'Science',
       'iconPath': 'assets/drawables/icons/science.png',
-      'color': Colors.blueAccent,
+      'color': Color(0xFF64B5F6), // Blue
+      'emoji': '🔬',
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal[50],
-      appBar: AppBar(
-        title: Text('Subjects for Age ${widget.age}'),
-        centerTitle: true,
-        backgroundColor: Colors.teal,
-      ),
-      body: BlocProvider(
-        create: (context) => _subjectCubit,
-        child: ListView.builder(
-          itemCount: subjects.length,
-          itemBuilder: (context, index) {
-            var subject = subjects[index];
-            return Card(
-              elevation: 4,
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              child: ListTile(
-                contentPadding: EdgeInsets.all(16),
-                leading: CircleAvatar(
-                  radius: 30,
-                  backgroundColor: subject["color"] as Color, // ✅ Cast to Color
-                  child: ClipOval(
-                    child: Image.asset(
-                      subject['iconPath'] as String, // ✅ Cast to String
-                      width: 32,
-                      height: 32,
-                      fit: BoxFit.contain,
+      body: Stack(
+        children: [
+          // Static Background Color - light gradient
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFFB3E5FC),
+                  Color(0xFFE1F5FE),
+                ],
+              ),
+            ),
+          ),
+          // Content
+          SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Select Subject',
+                        style: widget.setFont(
+                          widget.poppinsTightBold700,
+                          fontSize: 28,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Age ${widget.age}',
+                        style: widget.setFont(
+                          widget.poppinsTightMedium500,
+                          fontSize: 16,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: BlocProvider(
+                    create: (context) => _subjectCubit,
+                    child: GridView.builder(
+                      padding: const EdgeInsets.all(16),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        childAspectRatio: 1, // Square cards
+                      ),
+                      itemCount: subjects.length,
+                      itemBuilder: (context, index) {
+                        final subject = subjects[index];
+                        final color = subject['color'] as Color;
+                        
+                        return GestureDetector(
+                          onTap: () {
+                            _subjectCubit.navigateToSubject(
+                              context,
+                              subject['name'] as String,
+                            );
+                          },
+                          child: Card(
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            color: color.withOpacity(0.9),
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  // Emoji icon
+                                  Text(
+                                    subject['emoji'] as String,
+                                    style: TextStyle(fontSize: 50),
+                                  ),
+                                  SizedBox(height: 8),
+                                  // Subject name
+                                  Text(
+                                    subject['name'] as String,
+                                    textAlign: TextAlign.center,
+                                    style: widget.setFont(
+                                      widget.poppinsTightBold700,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
-                title: Text(
-                  subject['name'] as String,
-                  style: widget.setFont(
-                    TextStyle(fontFamily: 'ComicNeue'),
-                    fontSize: 24,
-                  ),
-                ),
-                onTap: () {
-                  _subjectCubit.navigateToSubject(context, subject['name'] as String);
-                },
-              ),
-            );
-          },
-        ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
