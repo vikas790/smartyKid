@@ -21,7 +21,10 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: '3.22.0'   # IMPORTANT
+
+      - name: Flutter Doctor
+        run: flutter doctor
 
       - name: Install Dependencies
         run: flutter pub get
@@ -32,3 +35,8 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3   # v3 use karo
+        with:
+          name: app-release
+          path: build/app/outputs/flutter-apk/app-release.apk
