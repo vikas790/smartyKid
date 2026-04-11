@@ -12,52 +12,50 @@ dependencies:
     sdk: flutter
 
   # UI & Icons
-  cupertino_icons: ^1.0.8
-  flutter_svg: ^2.2.2
-  lottie: ^2.6.0
-  cached_network_image: ^3.4.1
-  country_flags: ^4.0.0
+  cupertino_icons:
+  flutter_svg:
+  lottie:
+  cached_network_image:
+  country_flags:
   
   # Navigation & Routing
-  go_router: ^16.0.0
+  go_router:
   
   # State Management
-  bloc: ^9.0.0
-  flutter_bloc: ^9.1.1
+  bloc:
+  flutter_bloc:
   
   # Dependency Injection
-  get_it: ^8.2.0
+  get_it:
   
   # Storage & Data
   hive: ^2.2.3
-  hive_flutter: ^1.1.0
-  path_provider: ^2.1.5
   
   # Network & API
   dio: ^5.8.0+1
-  connectivity_plus: ^6.1.4
-  socket_io_client: ^3.1.2
+  connectivity_plus:
+  socket_io_client:
   
   # Utilities
-  flutter_dotenv: ^5.2.1
-  localization: ^2.1.1
-  event_bus: ^2.0.1
+  flutter_dotenv:
+  localization:
+  event_bus:
   
   # UI Components
-  flutter_slider_drawer: ^2.0.0
-  animations: ^2.0.11
-  fl_chart: ^1.0.0
+  flutter_slider_drawer:
+  animations:
+  fl_chart:
   
   # Media & Files
-  image_picker: ^1.2.0
+  image_picker:
   
   # Settings
-  app_settings: ^6.1.1
+  app_settings:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints:
 
 flutter:
   uses-material-design: true
